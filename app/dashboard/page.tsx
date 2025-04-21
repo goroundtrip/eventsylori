@@ -1,7 +1,7 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import ProtectedRoute from '../components/ProtectedRoute'
+import ProtectedRoute from '@/components/ProtectedRoute'
 import Link from 'next/link'
 
 export default function Dashboard() {
