@@ -24,7 +24,7 @@ interface Event {
 export default async function AdminEventPage({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
 
-  if (!session || session.user.role !== 'admin') {
+  if (!session?.user || session.user.role !== 'admin') {
     redirect('/');
   }
 
