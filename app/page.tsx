@@ -11,7 +11,7 @@ async function getEvents(searchParams: { search?: string; category?: string }) {
   if (searchParams.category) params.set("category", searchParams.category);
 
   const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/events?${params.toString()}`,
+    `/api/events?${params.toString()}`,
     {
       cache: "no-store",
     }

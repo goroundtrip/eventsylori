@@ -6,8 +6,8 @@ import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 
-async function getOrganizerEvents(userId: string) {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/organizer/events`, {
+async function getOrganizerEvents() {
+  const res = await fetch('/api/organizer/events', {
     cache: "no-store",
   });
   return res.json();
@@ -20,7 +20,7 @@ export default async function OrganizerDashboardPage() {
     redirect("/");
   }
 
-  const events = await getOrganizerEvents(session.user.id);
+  const events = await getOrganizerEvents();
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

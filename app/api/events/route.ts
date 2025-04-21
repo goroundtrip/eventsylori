@@ -15,6 +15,11 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { title, description, date, location, image, price, capacity, category } = body;
 
+    // Date validation
+    if (isNaN(Date.parse(date))) {
+      return new NextResponse("Invalid date format", { status: 400 });
+    }
+
     const event = await prisma.event.create({
       data: {
         title,
@@ -30,6 +35,7 @@ export async function POST(req: Request) {
       },
     });
 
+    // Email notification
     await fetch("/api/email", {
       method: "POST",
       headers: {
@@ -44,8 +50,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json(event);
   } catch (error) {
-    console.error("[EVENTS_POST]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    console.error("[EVENTS_POST ERROR]", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
 
@@ -88,7 +94,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(events);
   } catch (error) {
-    console.error("[EVENTS_GET]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    console.error("[EVENTS_GET ERROR]", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
-} 
+}

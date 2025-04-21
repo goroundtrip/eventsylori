@@ -7,14 +7,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 async function getEvent(eventId: string) {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/events/${eventId}`, {
+  const res = await fetch(`/api/events/${eventId}`, {
     cache: "no-store",
   });
   return res.json();
 }
 
 async function getEventTickets(eventId: string) {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/events/${eventId}/tickets`, {
+  const res = await fetch(`/api/events/${eventId}/tickets`, {
     cache: "no-store",
   });
   return res.json();

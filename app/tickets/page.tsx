@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 
 async function getTickets() {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/tickets`, {
+  const res = await fetch('/api/tickets', {
     cache: "no-store",
   });
   return res.json();
