@@ -15,7 +15,7 @@ interface Event {
   status: 'pending' | 'approved' | 'rejected';
   imageUrl: string;
   category: string;
-  organizer: {
+  creator: {
     name: string;
     email: string;
   };
@@ -31,7 +31,7 @@ export default async function AdminEventPage({ params }: { params: { id: string 
   const event = await prisma.event.findUnique({
     where: { id: params.id },
     include: {
-      organizer: {
+      creator: {
         select: {
           name: true,
           email: true,
@@ -67,8 +67,8 @@ export default async function AdminEventPage({ params }: { params: { id: string 
           <div>
             <div className="mb-6">
               <h3 className="text-lg font-semibold mb-2">Organizer Information</h3>
-              <p><span className="font-semibold">Name:</span> {event.organizer.name}</p>
-              <p><span className="font-semibold">Email:</span> {event.organizer.email}</p>
+              <p><span className="font-semibold">Name:</span> {event.creator.name}</p>
+              <p><span className="font-semibold">Email:</span> {event.creator.email}</p>
             </div>
 
             <div className="space-y-4">
