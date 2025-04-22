@@ -49,10 +49,17 @@ export async function PATCH(req: Request) {
       },
       data: {
         status,
+        ...(reason && { reason }),
+      },
+      include: {
+        creator: {
+          select: {
+            email: true,
+          },
+        },
       },
     });
 
-    // Send email notification to the event creator
     if (status === "approved" || status === "rejected") {
       await fetch("/api/email", {
         method: "POST",
@@ -69,7 +76,4 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json(event);
   } catch (error) {
-    console.error("[ADMIN_EVENTS_PATCH]", error);
-    return new NextResponse("Internal Error", { status: 500 });
-  }
-} 
+    console.error("[
