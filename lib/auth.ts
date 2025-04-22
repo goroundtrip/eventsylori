@@ -1,12 +1,12 @@
 import { PrismaAdapter } from '@auth/prisma-adapter'
-import { PrismaClient } from '@prisma/client'
 import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
+import type { NextAuthOptions } from 'next-auth'
 import { prisma } from '@/app/lib/prisma'
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -30,9 +30,7 @@ export const authOptions = {
         }
 
         const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
+          where: { email: credentials.email },
         })
 
         if (!user || !user.password) {
@@ -55,6 +53,8 @@ export const authOptions = {
   pages: {
     signIn: '/auth/signin',
     signUp: '/signup',
+    signOut: '/auth/signout', // optional
+    error: '/auth/error',     // optional
   },
   session: {
     strategy: 'jwt',
@@ -76,4 +76,4 @@ export const authOptions = {
       return token
     },
   },
-} 
+}
