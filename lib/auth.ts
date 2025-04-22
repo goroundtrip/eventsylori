@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: '/auth/signin',
-    signUp: '/signup',
+    //signUp: '/signup',
     signOut: '/auth/signout', // optional
     error: '/auth/error',     // optional
   },
