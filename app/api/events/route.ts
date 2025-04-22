@@ -76,31 +76,21 @@ export async function GET(req: Request) {
         { status: "approved" },
       ],
     };
-const events = await prisma.event.findMany({
-  where: {
-    AND: [
-      {
-        OR: [
-          { title: { contains: searchQuery, mode: 'insensitive' } },
-          { description: { contains: searchQuery, mode: 'insensitive' } },
-          { location: { contains: searchQuery, mode: 'insensitive' } },
-        ],
-      },
-    ],
-  },
-  include: {
-    creator: {
-      select: {
-        name: true,
-        image: true,
-      },
-    },
-  },
-  orderBy: {
-    date: "asc",
-  },
-});
 
+    const events = await prisma.event.findMany({
+      where,
+      include: {
+        creator: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: {
+        date: "asc",
+      },
+    });
 
     return NextResponse.json(events);
   } catch (error) {
