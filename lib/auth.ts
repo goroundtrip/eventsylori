@@ -4,7 +4,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
-import { prisma } from './prisma'
+import { prisma } from '@/app/lib/prisma'
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
