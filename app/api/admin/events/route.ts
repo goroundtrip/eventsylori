@@ -75,5 +75,8 @@ export async function PATCH(req: Request) {
     }
 
     return NextResponse.json(event);
-  } catch (error) {
-    console.error("[
+} catch (error) {
+  console.error("[ADMIN_EVENTS_PATCH]", error);
+  return new NextResponse("Internal Error", { status: 500 });
+}
+}
