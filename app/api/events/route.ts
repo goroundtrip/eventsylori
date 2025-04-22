@@ -61,7 +61,7 @@ export async function GET(req: Request) {
     const search = searchParams.get("search");
     const category = searchParams.get("category");
 
-    const where = {
+    const where: any = {
       AND: [
         search
           ? {
