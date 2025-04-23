@@ -79,7 +79,7 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id
         token.role = user.role
       }
-      return token
+      return token;
     },
   },
 }
