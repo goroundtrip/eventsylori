@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth"; // Update the path if authOptions is located elsewhere
 import { redirect } from "next/navigation";

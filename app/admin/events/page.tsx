@@ -6,6 +6,8 @@ import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 async function getEvents() {
   const res = await fetch('/api/admin/events', {
     cache: "no-store",

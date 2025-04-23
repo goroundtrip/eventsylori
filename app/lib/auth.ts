@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import TwitterProvider from "next-auth/providers/twitter";
@@ -17,13 +19,20 @@ export const authOptions: AuthOptions = {
     }),
   ],
   session: {
-    strategy: "jwt" as const,  // Explicitly type the strategy
+    strategy: "jwt",
   },
   callbacks: {
-    async session({ session, user }) {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
+      }
+      return token;
+    },
+    async session({ session, token }) {
       if (session.user) {
-        session.user.id = user.id;
-        session.user.role = user.role;
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
       }
       return session;
     },

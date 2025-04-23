@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
 import Image from "next/image";
