@@ -12,12 +12,12 @@ interface Event {
   location: string;
   price: number;
   capacity: number;
-  status: 'pending' | 'approved' | 'rejected';
-  imageUrl: string;
+  status: 'pending' | 'approved' | 'rejected' | 'cancelled'; // Ensure this matches your schema
+  image: string | null;
   category: string;
   creator: {
-    name: string;
-    email: string;
+    name: string | null;
+    email: string | null;
   };
 }
 
@@ -47,13 +47,13 @@ export default async function AdminEventPage({ params }: { params: { id: string 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Event Details</h1>
-      
+
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h2 className="text-2xl font-semibold mb-4">{event.title}</h2>
             <p className="text-gray-600 mb-4">{event.description}</p>
-            
+
             <div className="space-y-2">
               <p><span className="font-semibold">Date:</span> {new Date(event.date).toLocaleDateString()}</p>
               <p><span className="font-semibold">Location:</span> {event.location}</p>
@@ -61,6 +61,12 @@ export default async function AdminEventPage({ params }: { params: { id: string 
               <p><span className="font-semibold">Capacity:</span> {event.capacity}</p>
               <p><span className="font-semibold">Status:</span> {event.status}</p>
               <p><span className="font-semibold">Category:</span> {event.category}</p>
+              {event.image && (
+                <div>
+                  <span className="font-semibold">Image:</span><br />
+                  <img src={event.image} alt={event.title} className="mt-2 max-w-xs rounded shadow" />
+                </div>
+              )}
             </div>
           </div>
 
@@ -98,7 +104,6 @@ async function handleApprove(eventId: string) {
     where: { id: eventId },
     data: { status: 'approved' },
   });
-  // TODO: Send email notification to organizer
 }
 
 async function handleReject(eventId: string) {
@@ -107,5 +112,4 @@ async function handleReject(eventId: string) {
     where: { id: eventId },
     data: { status: 'rejected' },
   });
-  // TODO: Send email notification to organizer
-} 
+}
