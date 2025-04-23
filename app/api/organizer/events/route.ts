@@ -1,21 +1,14 @@
-export const dynamic = "force-dynamic";
-
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/lib/auth"; // Ensure this path is correct
-import { PrismaClient } from "@prisma/client";
+import { authOptions } from "@/app/lib/auth";
+import { prisma } from "@/app/lib/prisma";
 
-// Initialize Prisma Client
-const prisma = new PrismaClient();
+export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions);
-
-    console.log("Session fetched:", session);
-
-    if (!session || session.user.role !== "organizer") {
-      console.error("Unauthorized access - Invalid session or role");
+    if (!session) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
@@ -24,23 +17,21 @@ export async function GET() {
         creatorId: session.user.id,
       },
       include: {
-        tickets: {
-          select: { id: true },
+        creator: {
+          select: {
+            name: true,
+            image: true,
+          },
         },
       },
       orderBy: {
-        createdAt: "desc",
+        date: "asc",
       },
     });
-
-    if (!events || events.length === 0) {
-      console.log("No events found for organizer", session.user.id);
-      return new NextResponse("No events found", { status: 404 });
-    }
 
     return NextResponse.json(events);
   } catch (error) {
     console.error("[ORGANIZER_EVENTS_GET]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
