@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/app/lib/auth";
@@ -28,4 +26,6 @@ export default async function NewEventPage() {
       </div>
     </div>
   );
-} 
+}
+
+export const dynamic = "force-dynamic";
