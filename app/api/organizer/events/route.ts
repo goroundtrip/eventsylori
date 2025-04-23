@@ -4,6 +4,8 @@ import { authOptions } from "@/app/lib/auth";
 import { prisma } from "@/app/lib/prisma";
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
+export const preferredRegion = 'iad1';
 
 export async function GET(req: Request) {
   try {
