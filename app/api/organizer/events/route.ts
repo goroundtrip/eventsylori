@@ -3,9 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
 import { prisma } from "@/app/lib/prisma";
 
+export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-export const runtime = 'edge';
-export const preferredRegion = 'iad1';
+export const revalidate = 0;
 
 export async function GET(req: Request) {
   try {
@@ -31,7 +31,11 @@ export async function GET(req: Request) {
       },
     });
 
-    return NextResponse.json(events);
+    return NextResponse.json(events, {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0',
+      },
+    });
   } catch (error) {
     console.error("[ORGANIZER_EVENTS_GET]", error);
     return new NextResponse("Internal Server Error", { status: 500 });
